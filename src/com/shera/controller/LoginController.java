@@ -1,8 +1,8 @@
-package com.shera.service;
+package com.shera.controller;
 
 import com.shera.model.User;
 
-public interface LoginService {
+public interface LoginController {
 
     User authentication(String username, String password);
 }

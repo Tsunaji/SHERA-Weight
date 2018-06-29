@@ -14,25 +14,23 @@ public class APIConnectionMannager {
 
     OkHttpClient client = new OkHttpClient();
 
-    public String get(String url) throws IOException {
+    public Response get(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         Response response = client.newCall(request).execute();
-        System.out.println("Get Status: " + response.code());
-        return response.body().string();
+        return response;
     }
 
-    public String post(String url, String json) throws IOException {
+    public Response post(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            System.out.println("Post Status: " + response.code());
-            return response.body().string();
+            return response;
         }
     }
 }

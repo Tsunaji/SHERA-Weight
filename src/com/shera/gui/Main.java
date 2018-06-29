@@ -6,7 +6,7 @@
 package com.shera.gui;
 
 import com.shera.model.User;
-import com.shera.service.LoginServiceImpl;
+import com.shera.controller.LoginControllerImpl;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -600,7 +600,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
+        LoginControllerImpl loginServiceImpl = new LoginControllerImpl();
         User user = loginServiceImpl.authentication(usernameField.getText(), passwordField.getText());
         System.out.println("pass: " + passwordField.getText());
         System.out.println("user: " + user.toString());
