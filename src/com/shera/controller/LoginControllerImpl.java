@@ -28,6 +28,8 @@ public class LoginControllerImpl implements LoginController {
                 result = response.body().string();
                 Gson gson = new Gson();
                 user = gson.fromJson(result, User.class);
+            }else{
+                Logger.getLogger("Invalid Login !");
             }
         } catch (IOException ex) {
             Logger.getLogger(LoginControllerImpl.class.getName()).log(Level.SEVERE, null, ex);

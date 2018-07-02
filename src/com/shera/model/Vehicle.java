@@ -9,6 +9,6 @@ package com.shera.model;
  *
  * @author jirasak_ka
  */
-public class Car {
+public class Vehicle {
     
 }
