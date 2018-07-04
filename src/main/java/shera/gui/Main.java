@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main.java.shera.gui;
 
 import main.java.shera.model.User;
@@ -11,10 +6,6 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author jirasak_ka
- */
 public class Main extends javax.swing.JFrame {
 
     int count = 0;
@@ -620,9 +611,7 @@ public class Main extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         LoginControllerImpl loginServiceImpl = new LoginControllerImpl();
         User user = loginServiceImpl.authentication(usernameField.getText(), passwordField.getText());
-        System.out.println("pass: " + passwordField.getText());
-        System.out.println("user: " + user.toString());
-//        loginServiceImpl.testGet();
+        System.out.println("user: " + usernameField.getText() + ", pass: " + passwordField.getText());
         if (user != null) {
             mainPanel.removeAll();
             mainPanel.validate();
@@ -635,8 +624,7 @@ public class Main extends javax.swing.JFrame {
             usernameField.setText("");
             passwordField.setText("");
             System.out.println("LOGIN FAIL !");
-            JOptionPane.showMessageDialog(null, "รหัสผ่านไม่ถูกต้อง\n"
-                    + "Username or password invalid");
+            JOptionPane.showMessageDialog(null, "Username password invalid");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

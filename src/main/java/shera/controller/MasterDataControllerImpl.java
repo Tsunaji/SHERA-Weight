@@ -2,12 +2,12 @@ package main.java.shera.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import main.java.shera.model.Vehicle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import main.java.shera.model.MasterData;
 import main.java.shera.util.ConfigManager;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -15,9 +15,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class VehicleControllerImpl implements VehicleController {
+public class MasterDataControllerImpl implements MasterDataController {
 
-    Logger logger = Logger.getLogger(VehicleControllerImpl.class.getName());
+    Logger logger = Logger.getLogger(MasterDataControllerImpl.class.getName());
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -26,9 +26,55 @@ public class VehicleControllerImpl implements VehicleController {
     Gson gson = new Gson();
 
     @Override
-    public boolean registerVehicle(Vehicle vehicle) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle";
-        String json = gson.toJson(vehicle);
+    public MasterData getMasterData(int id) {
+        String url = cm.getHostServerAPI() + "/weight/masterData/" + id;
+        MasterData masterData = null;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                logger.log(Level.SEVERE, response.toString());
+            } else {
+                masterData = gson.fromJson(response.body().string(), MasterData.class);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MasterDataControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return masterData;
+    }
+
+    @Override
+    public List<MasterData> getAllMasterData() {
+        List<MasterData> masterDatas = new ArrayList<>();
+        String url = cm.getHostServerAPI() + "/weight/masterData";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                logger.log(Level.SEVERE, response.toString());
+            } else {
+                masterDatas = gson.fromJson(response.body().string(), new TypeToken<List<MasterData>>() {
+                }.getType());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MasterDataControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return masterDatas;
+    }
+
+    @Override
+    public boolean insertMasterData(MasterData masterData) {
+        String url = cm.getHostServerAPI() + "/weight/vehicles";
+        String json = gson.toJson(masterData);
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -48,55 +94,9 @@ public class VehicleControllerImpl implements VehicleController {
     }
 
     @Override
-    public Vehicle getVehicle(int id) {
+    public boolean updateMasterData(MasterData masterData, int id) {
         String url = cm.getHostServerAPI() + "/weight/vehicle/" + id;
-        Vehicle vehicle = null;
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                logger.log(Level.SEVERE, response.toString());
-            } else {
-                vehicle = gson.fromJson(response.body().string(), Vehicle.class);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return vehicle;
-    }
-
-    @Override
-    public List<Vehicle> getAllVehicle() {
-        List<Vehicle> vehicles = new ArrayList<>();
-        String url = cm.getHostServerAPI() + "/weight/vehicles";
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try {
-            Response response = client.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                logger.log(Level.SEVERE, response.toString());
-            } else {
-                vehicles = gson.fromJson(response.body().string(), new TypeToken<List<Vehicle>>() {
-                }.getType());
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return vehicles;
-    }
-
-    @Override
-    public boolean updateVehicle(Vehicle vehicle, int id) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle/" + id;
-        String json = gson.toJson(vehicle);
+        String json = gson.toJson(masterData);
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -116,11 +116,12 @@ public class VehicleControllerImpl implements VehicleController {
     }
 
     @Override
-    public boolean validateShipment(int id, String shipment) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle/" + id + "/shipment/" + shipment;
+    public boolean deleteMasterData(int id) {
+        String url = cm.getHostServerAPI() + "/weight/masterData/" + id;
 
         Request request = new Request.Builder()
                 .url(url)
+                .delete()
                 .build();
 
         try {
@@ -131,7 +132,7 @@ public class VehicleControllerImpl implements VehicleController {
             }
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MasterDataControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
