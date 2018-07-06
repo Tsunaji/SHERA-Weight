@@ -1,12 +1,12 @@
 package main.java.com.shera.sheraweight.model;
 
-public class Vehicle {
+public class Car {
 
     private int id;
     private boolean isTransfer;
     private String productType;
     private String transporterType;
-    private String vehicleType;
+    private String carType;
     private String license1;
     private String license2;
     private String transporterCompany;
@@ -27,7 +27,7 @@ public class Vehicle {
     private String specialReleaseReason;
     private String status;
 
-    public Vehicle() {
+    public Car() {
     }
 
     public int getId() {
@@ -62,12 +62,12 @@ public class Vehicle {
         this.transporterType = transporterType;
     }
 
-    public String getVehicleType() {
-        return vehicleType;
+    public String getCarType() {
+        return carType;
     }
 
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
+    public void setCarType(String carType) {
+        this.carType = carType;
     }
 
     public String getLicense1() {
@@ -220,6 +220,11 @@ public class Vehicle {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" + "id=" + id + ", isTransfer=" + isTransfer + ", productType=" + productType + ", transporterType=" + transporterType + ", carType=" + carType + ", license1=" + license1 + ", license2=" + license2 + ", transporterCompany=" + transporterCompany + ", contactName=" + contactName + ", company=" + company + ", phone=" + phone + ", documentNumber=" + documentNumber + ", weighFromDocument=" + weighFromDocument + ", notInputWeighReason=" + notInputWeighReason + ", weightIn=" + weightIn + ", weightOut=" + weightOut + ", netweight=" + netweight + ", standardWeight=" + standardWeight + ", percentDifWeight=" + percentDifWeight + ", palleteWeight=" + palleteWeight + ", lendPalleteNumber=" + lendPalleteNumber + ", isSpecialRelease=" + isSpecialRelease + ", specialReleaseReason=" + specialReleaseReason + ", status=" + status + '}';
     }
     
 }

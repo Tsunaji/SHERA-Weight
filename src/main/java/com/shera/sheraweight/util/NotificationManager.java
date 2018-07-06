@@ -15,7 +15,7 @@ public class NotificationManager {
         return false;
     }
 
-    boolean sendSMS(String phoneNumber) {
+    boolean sendSMS(String phoneNumber, String content) {
         return false;
     }
 }

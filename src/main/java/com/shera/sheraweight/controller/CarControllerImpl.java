@@ -2,7 +2,7 @@ package main.java.com.shera.sheraweight.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import main.java.com.shera.sheraweight.model.Vehicle;
+import main.java.com.shera.sheraweight.model.Car;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class VehicleControllerImpl implements VehicleController {
+public class CarControllerImpl implements CarController {
 
-    Logger logger = Logger.getLogger(VehicleControllerImpl.class.getName());
+    Logger logger = Logger.getLogger(CarControllerImpl.class.getName());
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -26,9 +26,9 @@ public class VehicleControllerImpl implements VehicleController {
     Gson gson = new Gson();
 
     @Override
-    public boolean registerVehicle(Vehicle vehicle) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle";
-        String json = gson.toJson(vehicle);
+    public boolean registerCar(Car car) {
+        String url = cm.getHostServerAPI() + "/weight/car";
+        String json = gson.toJson(car);
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -48,9 +48,9 @@ public class VehicleControllerImpl implements VehicleController {
     }
 
     @Override
-    public Vehicle getVehicle(int id) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle/" + id;
-        Vehicle vehicle = null;
+    public Car getCar(int id) {
+        String url = cm.getHostServerAPI() + "/weight/car/" + id;
+        Car car = null;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -61,19 +61,19 @@ public class VehicleControllerImpl implements VehicleController {
             if (!response.isSuccessful()) {
                 logger.log(Level.SEVERE, response.toString());
             } else {
-                vehicle = gson.fromJson(response.body().string(), Vehicle.class);
+                car = gson.fromJson(response.body().string(), Car.class);
             }
         } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return vehicle;
+        return car;
     }
 
     @Override
-    public List<Vehicle> getAllVehicle() {
-        List<Vehicle> vehicles = new ArrayList<>();
-        String url = cm.getHostServerAPI() + "/weight/vehicles";
+    public List<Car> getAllCar() {
+        List<Car> cars = new ArrayList<>();
+        String url = cm.getHostServerAPI() + "/weight/cars";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -84,19 +84,19 @@ public class VehicleControllerImpl implements VehicleController {
             if (!response.isSuccessful()) {
                 logger.log(Level.SEVERE, response.toString());
             } else {
-                vehicles = gson.fromJson(response.body().string(), new TypeToken<List<Vehicle>>() {
+                cars = gson.fromJson(response.body().string(), new TypeToken<List<Car>>() {
                 }.getType());
             }
         } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return vehicles;
+        return cars;
     }
 
     @Override
-    public boolean updateVehicle(Vehicle vehicle, int id) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle/" + id;
-        String json = gson.toJson(vehicle);
+    public boolean updateCar(Car car, int id) {
+        String url = cm.getHostServerAPI() + "/weight/car/" + id;
+        String json = gson.toJson(car);
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -117,7 +117,7 @@ public class VehicleControllerImpl implements VehicleController {
 
     @Override
     public boolean validateShipment(int id, String shipment) {
-        String url = cm.getHostServerAPI() + "/weight/vehicle/" + id + "/shipment/" + shipment;
+        String url = cm.getHostServerAPI() + "/weight/car/" + id + "/shipment/" + shipment;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -131,7 +131,7 @@ public class VehicleControllerImpl implements VehicleController {
             }
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(VehicleControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
