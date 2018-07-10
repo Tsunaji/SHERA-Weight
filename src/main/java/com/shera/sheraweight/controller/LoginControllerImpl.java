@@ -24,7 +24,7 @@ public class LoginControllerImpl implements LoginController {
 
     @Override
     public LdapUser authentication(String username, String password) {
-        String url = cm.getHostServerAPI() + "/ldap/user";
+        String url = cm.getServerAPI() + "/ldap/user";
 
         String json = "{\"username\" : \"" + username + "\","
                 + " \"password\" : \"" + password + "\"}";

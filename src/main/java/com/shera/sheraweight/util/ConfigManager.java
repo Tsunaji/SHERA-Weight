@@ -8,7 +8,8 @@ import java.util.Properties;
 
 public class ConfigManager {
 
-    private String hostServerAPI;
+    private String serverAPI;
+    private String clientIP;
 
     public ConfigManager() {
         File configFile = new File("src/main/resources/config/config.properties");
@@ -18,7 +19,8 @@ public class ConfigManager {
             Properties props = new Properties();
             props.load(reader);
 
-            this.hostServerAPI = props.getProperty("host.server.api");
+            this.serverAPI = props.getProperty("server.api");
+            this.clientIP = props.getProperty("client.ip");
 
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -30,8 +32,11 @@ public class ConfigManager {
         }
     }
 
-    public String getHostServerAPI() {
-        return hostServerAPI;
+    public String getServerAPI() {
+        return serverAPI;
     }
 
+    public String getClientIP() {
+        return clientIP;
+    }
 }

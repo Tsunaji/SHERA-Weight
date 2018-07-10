@@ -27,7 +27,7 @@ public class CarControllerImpl implements CarController {
 
     @Override
     public boolean registerCar(Car car) {
-        String url = cm.getHostServerAPI() + "/weight/car";
+        String url = cm.getServerAPI() + "/weight/car";
         String json = gson.toJson(car);
 
         RequestBody body = RequestBody.create(JSON, json);
@@ -49,7 +49,7 @@ public class CarControllerImpl implements CarController {
 
     @Override
     public Car getCar(int id) {
-        String url = cm.getHostServerAPI() + "/weight/car/" + id;
+        String url = cm.getServerAPI() + "/weight/car/" + id;
         Car car = null;
 
         Request request = new Request.Builder()
@@ -73,7 +73,7 @@ public class CarControllerImpl implements CarController {
     @Override
     public List<Car> getAllCar() {
         List<Car> cars = new ArrayList<>();
-        String url = cm.getHostServerAPI() + "/weight/cars";
+        String url = cm.getServerAPI() + "/weight/cars";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -95,7 +95,7 @@ public class CarControllerImpl implements CarController {
 
     @Override
     public boolean updateCar(Car car, int id) {
-        String url = cm.getHostServerAPI() + "/weight/car/" + id;
+        String url = cm.getServerAPI() + "/weight/car/" + id;
         String json = gson.toJson(car);
 
         RequestBody body = RequestBody.create(JSON, json);
@@ -117,7 +117,7 @@ public class CarControllerImpl implements CarController {
 
     @Override
     public boolean validateShipment(int id, String shipment) {
-        String url = cm.getHostServerAPI() + "/weight/car/" + id + "/shipment/" + shipment;
+        String url = cm.getServerAPI() + "/weight/car/" + id + "/shipment/" + shipment;
 
         Request request = new Request.Builder()
                 .url(url)
