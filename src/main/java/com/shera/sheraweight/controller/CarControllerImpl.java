@@ -1,6 +1,5 @@
 package main.java.com.shera.sheraweight.controller;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import main.java.com.shera.sheraweight.model.Car;
 import java.io.IOException;
@@ -8,47 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import main.java.com.shera.sheraweight.util.ConfigManager;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class CarControllerImpl implements CarController {
+public class CarControllerImpl extends TemplateController<Car> {
 
     Logger logger = Logger.getLogger(CarControllerImpl.class.getName());
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
-    ConfigManager cm = new ConfigManager();
-    Gson gson = new Gson();
-
     @Override
-    public boolean registerCar(Car car) {
-        String url = cm.getServerAPI() + "/weight/car";
-        String json = gson.toJson(car);
-
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                logger.log(Level.SEVERE, response.toString());
-                return false;
-            }
-            return true;
-        } catch (IOException ex) {
-            Logger.getLogger(LoginControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-
-    @Override
-    public Car getCar(int id) {
+    public Car get(String id) {
+        OkHttpClient client = new OkHttpClient();
         String url = cm.getServerAPI() + "/weight/car/" + id;
         Car car = null;
 
@@ -66,12 +36,12 @@ public class CarControllerImpl implements CarController {
         } catch (IOException ex) {
             Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return car;
     }
 
     @Override
-    public List<Car> getAllCar() {
+    public List<Car> getAll() {
+        OkHttpClient client = new OkHttpClient();
         List<Car> cars = new ArrayList<>();
         String url = cm.getServerAPI() + "/weight/cars";
 
@@ -94,9 +64,32 @@ public class CarControllerImpl implements CarController {
     }
 
     @Override
-    public boolean updateCar(Car car, int id) {
-        String url = cm.getServerAPI() + "/weight/car/" + id;
-        String json = gson.toJson(car);
+    public boolean create(Car object) {
+        OkHttpClient client = new OkHttpClient();
+        String url = cm.getServerAPI() + "/weight/car";
+        String json = gson.toJson(object);
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                logger.log(Level.SEVERE, response.toString());
+            }
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(LoginControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(Car object) {
+        OkHttpClient client = new OkHttpClient();
+        String url = cm.getServerAPI() + "/weight/car/" + object.getId();
+        String json = gson.toJson(object);
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -106,18 +99,63 @@ public class CarControllerImpl implements CarController {
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
                 logger.log(Level.SEVERE, response.toString());
-                return false;
             }
             return true;
         } catch (IOException ex) {
             Logger.getLogger(LoginControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return false;
     }
 
     @Override
-    public boolean validateShipment(int id, String shipment) {
-        String url = cm.getServerAPI() + "/weight/car/" + id + "/shipment/" + shipment;
+    public boolean delete(String id) {
+        OkHttpClient client = new OkHttpClient();
+        String url = cm.getServerAPI() + "/weight/car/" + id;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                logger.log(Level.SEVERE, response.toString());
+            } else {
+                return true;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean updateShipmentStatus(Car object) {
+        OkHttpClient client = new OkHttpClient();
+        String url = cm.getServerAPI() + "/weight/car/" + object.getId() + "/shipment/" + object.getShipment();
+        String json = gson.toJson(object);
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                logger.log(Level.SEVERE, response.toString());
+            }
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean validateShipment(Car object) {
+        OkHttpClient client = new OkHttpClient();
+        String url = cm.getServerAPI() + "/weight/car/" + object.getId() + "/shipment/" + object.getShipment();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -127,13 +165,11 @@ public class CarControllerImpl implements CarController {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) {
                 logger.log(Level.SEVERE, response.toString());
-                return false;
             }
             return true;
         } catch (IOException ex) {
             Logger.getLogger(CarControllerImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return false;
     }
-
 }
