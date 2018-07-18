@@ -8,8 +8,7 @@ import java.util.Properties;
 
 public class ConfigManager {
 
-    private String serverAPI;
-    private String clientIP;
+    public static String SERVER_API;
 
     public ConfigManager() {
         File configFile = new File("src/main/resources/config/config.properties");
@@ -19,24 +18,13 @@ public class ConfigManager {
             Properties props = new Properties();
             props.load(reader);
 
-            this.serverAPI = props.getProperty("server.api");
-            this.clientIP = props.getProperty("client.ip");
+            this.SERVER_API = props.getProperty("server.api");
 
             reader.close();
         } catch (FileNotFoundException ex) {
-            // file does not exist
-            System.out.println(ex);
+            ex.printStackTrace();
         } catch (IOException ex) {
-            // I/O error
-            System.out.println(ex);
+            ex.printStackTrace();
         }
-    }
-
-    public String getServerAPI() {
-        return serverAPI;
-    }
-
-    public String getClientIP() {
-        return clientIP;
     }
 }

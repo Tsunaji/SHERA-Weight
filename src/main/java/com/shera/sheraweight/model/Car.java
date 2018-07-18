@@ -17,7 +17,7 @@ public class Car {
     private String phone;
     private String documentNumber;
     private int weighFromDocument;
-    private String notInputWeighReason;
+    private String notInputWeightReason;
     private int weightIn;
     private int weightOut;
     private int netweight;
@@ -137,14 +137,14 @@ public class Car {
         this.weighFromDocument = weighFromDocument;
     }
 
-    public String getNotInputWeighReason() {
-        return notInputWeighReason;
+    public String getNotInputWeightReason() {
+        return notInputWeightReason;
     }
 
-    public void setNotInputWeighReason(String notInputWeighReason) {
-        this.notInputWeighReason = notInputWeighReason;
+    public void setNotInputWeightReason(String notInputWeightReason) {
+        this.notInputWeightReason = notInputWeightReason;
     }
-
+    
     public int getWeightIn() {
         return weightIn;
     }
